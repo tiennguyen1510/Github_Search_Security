@@ -1,0 +1,9 @@
+#!bin/bash
+
+rm output/*
+# loop all file scan
+while read p; do
+	pi='https://github.com/search?o=desc&q='"$p"'&s=indexed&type=Code'
+	req=$(curl $pi -H 'Connection: keep-alive' -H 'Cache-Control: max-age=0' -H 'Upgrade-Insecure-Requests: 1' -H 'User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36' -H 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3' -H 'Referer: https://github.com/search?p=3&q=uit.edu.vn&type=Code' -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: vi-VN,vi;q=0.9,en-US;q=0.8,en;q=0.7' -H 'Cookie: _ga=GA1.2.829426130.1555051399; _octo=GH1.1.2137024611.1555051399; tz=Asia%2FSaigon; _device_id=ef9cc0f8d152bff7fb115168078efb2a; ignored_unsupported_browser_notice=false; user_session=1p-CXRpSBwczFUjlTE9QAMv4vQFfki5pKWZura2YQBohw-tY; __Host-user_session_same_site=1p-CXRpSBwczFUjlTE9QAMv4vQFfki5pKWZura2YQBohw-tY; logged_in=yes; dotcom_user=tiennguyen1510; _gid=GA1.2.1243838043.1561088461; has_recent_activity=1; _gh_sess=V0NuZVhKWlhyNVByNnB6RUxCampyUloveFU2ZHFxUzI5bUpYUlhDclIwdGsrK1NxWnRaWGJqeUgvUmNkcEFKemRCWDFDeU5XRis5aTNSd2FacjdOMDlOSkpTdVlvczhyKzZKRjRrOGhvdDg3RXpjWTg3bzQrRVMzUDlHeGk1cmtBeGhVd2l3TWZGcXNoandCQ1dFaFJ2QnJjS3h4Vkd4bG5peWxQcG9GMWhYL0hlc3RoTEllMEFqZCs2dm5udFhlUGVlT3lNbGNzN1hhL0k2THgvbG4wRkZuVnE0eWlmcE4zVUtHMjdvRjBRTVVNck91cUpHQ2twcVNlMWhaZkdTb1lEZDJHbGw2UzRJY0toRUdsNUxqeVNHRGJiZFBNRk5lQXdkb2xlQngwSU9pa0FwMEVyRXgyalk3NEljZTFkaDREd3AzZVRRS0JPTW5MV2UwbTIzWkdLa3lDdGZvUXhTcDNFMHgrT1ZFSURvPS0tYk00blJlbzBJb080ZHVDeEtmL1NnUT09--6bfa9408621621f3b1b43478fe46b9c46ea23114' -H 'If-None-Match: W/"02c85c3dae3d47537f654318f11e5f54"' --compressed > output/$p.html)
+	python get_data.py output/$p.html
+done <keyword.txt
