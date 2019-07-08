@@ -12,6 +12,7 @@ url_loging = "https://chat.googleapis.com/v1/spaces/AAAA1EgMQ9U/messages?key=AIz
 url_test = "https://chat.googleapis.com/16DZUzJatIekyQScPisQ2VJN-elzVMQ%3D"
 
 # function send alert for API Hangout, or Slack,...
+# function send alert for API Hangout, or Slack,...
 def sendGG(text, url_input):
 	url = url_input
 	bot_message = {'text' : text}
@@ -26,6 +27,16 @@ def sendGG(text, url_input):
 		body=dumps(bot_message),
 	)
 
+
+# function open whitelist
+def openList(file):
+	a = []
+	with open(file) as f:
+		for line in f:
+			a.append(line.strip())
+	print a
+	return a
+
 # function for delete html tag return plaintext
 def clean_html(raw_html):
 	cleantext = re.sub('<.*?>', '', raw_html)
@@ -36,7 +47,7 @@ def clean_html(raw_html):
 # function for search keyword in code and return true or false
 # the paramater key is file
 def ext_match(key, code):
-	key = key.replace("output/","")
+	key = key.replace("/home/sgithub/scripts/github_search/output/","")
 	key = key.replace(".html","")
 
 	if key in code:
@@ -62,22 +73,27 @@ def get_info(element):
 
 	# get link of file contains sensitive information
 	_link = re.findall('https:\/\/.*\"}', str(_name[2]))
-	_link = _link[0]
+	_link = _link[0].replace('"}','')
 
-	# get code contain sensitive data
-	_code = soup.findAll('table')
-	str_code = BeautifulSoup(str(_code))
-	str_code = str_code.findAll("td", {"class": "blob-code blob-code-inner"})
+	# check liw(link in whitelist)
+	liw = openList("/home/sgithub/scripts/github_search/whitelist.txt")
 
-	_code = ""
-	for line in str_code:
-		_code = _code + clean_html(str(line)) + "\n"
+	if _link in liw:
+		return "IN", ""
+	else:
+		_code = soup.findAll('table')
+		str_code = BeautifulSoup(str(_code))
+		str_code = str_code.findAll("td", {"class": "blob-code blob-code-inner"})
 
-	_result = ""
-	if (ext_match("output/quanta.im.html",_code) == True):
-		_result = "Project: " + _projectName + "\n" + "File: " + _fileName + "\nLink: " + _link +"\n```" + _code + "```"
+		_code = ""
+		for line in str_code:
+			_code = _code + clean_html(str(line)) + "\n"
 
-	return _result
+		_result = ""
+		if (ext_match(sys.argv[1],_code) == True):
+			_result = "Project: " + _projectName + "\n" + "File: " + _fileName + "\nLink: " + _link +"\n```" + _code + "```"
+
+		return _result, _link
 
 # fuction get day from source code and compare day of system
 def get_day(element):
@@ -100,9 +116,15 @@ def get_data(file):
 	for div in mydivs:
 		flag = get_day(div)
 		if flag == True:
-			a = get_info(div)
-			if a:
-				sendGG(a, url_test)
+			a, _link  = get_info(div)
+			#print a
+			if a != "IN":
+				sendGG(a, url_primary)
+					# get code contain sensitive data
+				f = open("/home/sgithub/scripts/github_search/whitelist.txt", "a")
+				f.write(_link + "\n")
+				f.close()
+
 
 def sendLog(name, cate, status):
         dt = datetime.datetime.now()
