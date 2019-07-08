@@ -12,7 +12,6 @@ url_loging = "https://chat.googleapis.com/v1/spaces/AAAA1EgMQ9U/messages?key=AIz
 url_test = "https://chat.googleapis.com/16DZUzJatIekyQScPisQ2VJN-elzVMQ%3D"
 
 # function send alert for API Hangout, or Slack,...
-# function send alert for API Hangout, or Slack,...
 def sendGG(text, url_input):
 	url = url_input
 	bot_message = {'text' : text}
