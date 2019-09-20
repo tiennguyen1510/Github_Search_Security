@@ -7,9 +7,15 @@ from json import dumps
 from BeautifulSoup import BeautifulSoup 
 
 # url for channel google hangouts
+<<<<<<< HEAD
 url_primary = "https://chat.googleapis.com/v1/spaces/AAAA-uD-1as/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=tFZsahFaccoXTf360VrZO6GkIDCHMhH3ipZPtzy19_Y%3D"
 url_loging = "https://chat.googleapis.com/v1/spaces/AAAAI2sdHWw/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=mJ1V_TRDlhi_EhI2W8l9y0tuWL3MkTkrmSBLY_487h0%3D"
 url_test = "https://chat.googleapis.com/v1/spaces/AAAAz9uEl28/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=IiA799lihbxX16DZUzJatIekyQScPisQ2VJN-elzVMQ%3D"
+=======
+url_primary = "https://chat.googleapis.com/v1/spaces/AAAAjYF3XU0/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=48oMnLqf"
+url_loging = "https://chat.googleapis.com/v1/spaces/AAAA1EgMQ9U/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=9LZHV4Tqjff4"
+url_test = "https://chat.googleapis.com/16DZUzJatIekyQScPisQ2VJN-elzVMQ%3D"
+>>>>>>> 378c8dbc4f2f966b2cc28c734d148603031d34ed
 
 # function send alert for API Hangout, or Slack,...
 def sendGG(text, url_input):
@@ -77,10 +83,14 @@ def get_info(element):
 	# check liw(link in whitelist)
 	liw = openList("/home/sgithub/scripts/github_search/whitelist.txt")
 
+<<<<<<< HEAD
 	# check repo(repo in whitelist)
 	repo = openList("/home/sgithub/scripts/github_search/whitelist_repo.txt")
 	
 	if (_link in liw) or (_projectName in repo):
+=======
+	if _link in liw:
+>>>>>>> 378c8dbc4f2f966b2cc28c734d148603031d34ed
 		return "IN", ""
 	else:
 		_code = soup.findAll('table')
